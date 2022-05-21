@@ -218,11 +218,10 @@
       console.log('AmountWidget: ', thisWidget);
       console.log('constructor arguments: ', element);
 
-      
+
       thisWidget.getElements(element);
       thisWidget.setValue(settings.amountWidget.defaultValue);
       thisWidget.initActions();
-      
 
 
     }
@@ -250,7 +249,7 @@
 
       if((thisWidget.value !== newValue && !isNaN(newValue)) && newValue >= minValue && newValue <= maxValue){
         thisWidget.value = newValue;
-      } 
+      }
 
       thisWidget.input.value = thisWidget.value;
       thisWidget.announce();
@@ -264,12 +263,12 @@
 
       thisWidget.linkDecrease.addEventListener('click', function(event){
         event.preventDefault();
-        thisWidget.setValue ((thisWidget.value -= 1));
+        thisWidget.setValue ((thisWidget.value - 1));
       });
 
       thisWidget.linkIncrease.addEventListener('click', function(event){
         event.preventDefault();
-        thisWidget.setValue ((thisWidget.value += 1));
+        thisWidget.setValue ((thisWidget.value + 1));
       });
     }
 
