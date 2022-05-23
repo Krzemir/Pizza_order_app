@@ -285,14 +285,15 @@
           label: param.label,
           options: {}
         };
+        
         // for every option in this category
         for(let optionId in param.options) {
           const option = param.options[optionId];
           const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
-
+          
           if(optionSelected) {
             // option is selected!
-            params[paramId].options = option;
+            params[paramId].options[optionId] = option.label;
           }
         }
 
