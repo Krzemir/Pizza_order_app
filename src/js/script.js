@@ -400,6 +400,8 @@
       });
     }
 
+    //TODO
+
     remove(event){
       const thisCart = this;
       console.log('event: ', event);
@@ -416,7 +418,7 @@
       thisCart.products.splice(productToRemove, 1);
       //console.log('current cart: ', thisCart.products);
 
-     // thisCart.update();
+      thisCart.update();
 
     }
 
