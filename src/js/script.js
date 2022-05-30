@@ -79,6 +79,11 @@
       defaultDeliveryFee: 20,
     },
     // CODE ADDED END
+    db: {
+      url: '//localhost:3131',
+      products: 'products',
+      orders: 'orders',
+    },
 
   };
 
@@ -407,9 +412,9 @@
       console.log('event: ', event);
 
       const htmlToRemove = event.dom.wrapper;
-      console.log(htmlToRemove);
-      console.log(thisCart.dom.productList);
-      thisCart.dom.productList.remove(htmlToRemove);
+      console.log('to remove', htmlToRemove);
+      console.log('thisCart.dom.productList', thisCart.dom.productList);
+      event.dom.wrapper.remove(htmlToRemove);
 
       const productToRemove = thisCart.products.indexOf(event);
       //console.log('full cart: ', thisCart.products);
@@ -549,14 +554,31 @@
       const thisApp = this;
 
       for(let productData in thisApp.data.products){
-        new Product(productData, thisApp.data.products[productData]);
+        new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
       }
     },
 
     initData: function(){
       const thisApp = this;
 
-      thisApp.data = dataSource;
+      thisApp.data = {};
+      const url = settings.db.url + '/' + settings.db.products;
+
+      fetch(url)
+        .then(function(rawResponse){
+          return rawResponse.json();
+        })
+        .then(function(parsedResponse){
+          console.log('parsedResonse: ', parsedResponse);
+
+          //save parsedResponse as thisApp.data.products
+          thisApp.data.products = parsedResponse;
+          //execute initMenu method
+
+          thisApp.initMenu();
+        });
+
+      console.log('thisApp.data', JSON.stringify(thisApp.data));
     },
 
     initCart: function(){
@@ -570,7 +592,6 @@
       const thisApp = this;
 
       thisApp.initData();
-      thisApp.initMenu();
       thisApp.initCart();
     },
 
