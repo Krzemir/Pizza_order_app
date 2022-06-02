@@ -305,7 +305,7 @@
       const thisWidget = this;
 
       thisWidget.getElements(element);
-      thisWidget.setValue(settings.amountWidget.defaultValue);
+      thisWidget.setValue(thisWidget.input.value||settings.amountWidget.defaultValue);
       thisWidget.initActions();
 
 
@@ -450,10 +450,7 @@
       const thisCart = this;
       console.log('event: ', event);
 
-      const htmlToRemove = event.dom.wrapper;
-      console.log('to remove', htmlToRemove);
-      console.log('thisCart.dom.productList', thisCart.dom.productList);
-      event.dom.wrapper.remove(htmlToRemove);
+      event.dom.wrapper.remove();
 
       const productToRemove = thisCart.products.indexOf(event);
       //console.log('full cart: ', thisCart.products);
@@ -521,7 +518,6 @@
 
     }
 
-    
 
   }
 
@@ -539,6 +535,7 @@
       thisCartProduct.initAmountWidget(element);
       thisCartProduct.initActions();
       console.log('thisCartProduct', thisCartProduct);
+      console.log('AMOUNT', thisCartProduct.amount);
     }
 
     getElements(element) {
