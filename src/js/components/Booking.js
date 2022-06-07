@@ -1,5 +1,7 @@
 import { templates, select } from '../settings.js';
 import AmountWidget from './AmountWidget.js';
+import DatePicker from './DatePicker.js';
+import HourPicker from './HourPicker.js';
 
 class Booking {
   constructor(element) {
@@ -9,35 +11,29 @@ class Booking {
   }
 
   render(element) {
-    const thisBooking = this;
+    const thisWidget = this;
 
     const generatedHTML = templates.bookingWidget();
 
-    thisBooking.dom = {};
-    thisBooking.dom.wrapper = element;
-    thisBooking.dom.wrapper.innerHTML = generatedHTML;
+    thisWidget.dom = {};
+    thisWidget.dom.wrapper = element;
+    thisWidget.dom.wrapper.innerHTML = generatedHTML;
 
-    thisBooking.dom.peopleAmount = thisBooking.dom.wrapper.querySelector(
-      select.booking.peopleAmount
-    );
-    thisBooking.dom.hoursAmount = thisBooking.dom.wrapper.querySelector(
-      select.booking.hoursAmount
-    );
-
-    thisBooking.dom.wrapper.innerHTML = generatedHTML;
+    thisWidget.dom.peopleAmount = thisWidget.dom.wrapper.querySelector(select.booking.peopleAmount);
+    thisWidget.dom.hoursAmount = thisWidget.dom.wrapper.querySelector(select.booking.hoursAmount);
+    thisWidget.dom.datePicker = thisWidget.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
+    thisWidget.dom.hourPicker = thisWidget.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
   }
 
   initWidgets() {
-    const thisBooking = this;
-    thisBooking.peopleAmountWidget = new AmountWidget(
-      thisBooking.dom.peopleAmount
-    );
+    const thisWidget = this;
+    thisWidget.peopleAmountWidget = new AmountWidget(thisWidget.dom.peopleAmount);
+    thisWidget.hoursAmountWidget = new AmountWidget(thisWidget.dom.hoursAmount);
 
-    thisBooking.hoursAmountWidget = new AmountWidget(
-      thisBooking.dom.hoursAmount
-    );
+    thisWidget.datePicker = new DatePicker(thisWidget.dom.datePicker);
+    thisWidget.hourPicker = new HourPicker(thisWidget.dom.hourPicker);
 
-    thisBooking.dom.wrapper.addEventListener('updated', function () {});
+    thisWidget.dom.wrapper.addEventListener('updated', function () {});
   }
 }
 
