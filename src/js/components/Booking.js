@@ -13,7 +13,7 @@ class Booking {
     thisBooking.render(element);
     thisBooking.initWidgets();
     thisBooking.getData();
-    thisBooking.chooseTable();
+    thisBooking.chosenTables = 0;
   }
 
   getData() {
@@ -169,48 +169,45 @@ class Booking {
     thisWidget.dom.wrapper.addEventListener('updated', function () {
       thisWidget.updateDom();
     });
+
+    thisWidget.dom.wrapper.addEventListener('click', function (event) {
+      thisWidget.chooseTable(event);
+    });
   }
 
-  chooseTable() {
+  chooseTable(event) {
     const thisBooking = this;
 
-    thisBooking.chosenTables = [];
+    const clickedTable = event.target;
+    //log('clickedTable', clickedTable);
 
-    thisBooking.dom.wrapper.addEventListener('click', function (event) {
-      const clickedTable = event.target;
+    if (!clickedTable.classList.contains(classNames.booking.tableBooked)) {
+      const clickedTableId = clickedTable.getAttribute('data-table');
+      const otherTable = clickedTable.offsetParent.querySelector('.chosen');
+      //log('other table', otherTable);
 
-      if (!clickedTable.classList.contains(classNames.booking.tableBooked)) {
-        const clickedTableId = clickedTable.getAttribute('data-table');
-        log('clicked:', clickedTableId);
-
-        if (
-          !thisBooking.chosenTables.clickedTableId &&
-          !clickedTable.classList.contains(classNames.booking.tableChosen)
-        ) {
-          clickedTable.classList.add(classNames.booking.tableChosen);
-          thisBooking.chosenTables.push(clickedTableId);
-        } else {
-          const clickedTableId = clickedTable.getAttribute('data-table');
-
-          clickedTable.classList.remove(classNames.booking.tableChosen);
-
-          const toRemove = thisBooking.chosenTables.indexOf(clickedTableId);
-          log('to remove', toRemove);
-
-          thisBooking.chosenTables.splice(toRemove, 1);
-        }
-        log('chosen tables', thisBooking.chosenTables);
-      } else {
-        window.alert('This table is taken, please choose other one');
+      if (otherTable && !clickedTable.classList.contains(classNames.booking.tableChosen)) {
+        otherTable.classList.remove('chosen');
       }
-    });
 
-    log('chosen tables', thisBooking.chosenTables);
+      if (
+        !thisBooking.chosenTables[clickedTableId] &&
+        !clickedTable.classList.contains(classNames.booking.tableChosen)
+      ) {
+        clickedTable.classList.add(classNames.booking.tableChosen);
+
+        thisBooking.chosenTables = clickedTableId;
+      } else {
+        //const clickedTableId = clickedTable.getAttribute('data-table');
+
+        clickedTable.classList.remove(classNames.booking.tableChosen);
+      }
+    } else {
+      window.alert('This table is taken, please choose another one');
+    }
+
+    //log('chosen tables', thisBooking.chosenTables);
   }
-
-  // change look
-
-  //put chosen number to booking
 }
 
 export default Booking;
