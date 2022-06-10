@@ -168,6 +168,18 @@ class Booking {
 
     thisWidget.dom.wrapper.addEventListener('updated', function () {
       thisWidget.updateDom();
+
+      // szukam stolika z klasą chosen - zdefinioaną  settings/.../tableChosen
+      const chosenTable = thisWidget.dom.wrapper.querySelector(classNames.booking.tableChosen);
+
+      //jeśli taki jest to zdejmuję tę klasę
+      if (chosenTable) {
+        chosenTable.classList.remove(classNames.booking.tableChosen);
+      }
+
+      //i zeruję wartość zapisanych wybranych stolików
+
+      thisWidget.chosenTables = 0;
     });
 
     thisWidget.dom.wrapper.addEventListener('click', function (event) {
@@ -177,36 +189,39 @@ class Booking {
 
   chooseTable(event) {
     const thisBooking = this;
-
     const clickedTable = event.target;
-    //log('clickedTable', clickedTable);
+    // thisBooking.chosenTables = 0;
+    //   log('clickedTable', clickedTable);
 
     if (!clickedTable.classList.contains(classNames.booking.tableBooked)) {
       const clickedTableId = clickedTable.getAttribute('data-table');
-      const otherTable = clickedTable.offsetParent.querySelector('.chosen');
-      //log('other table', otherTable);
-
-      if (otherTable && !clickedTable.classList.contains(classNames.booking.tableChosen)) {
-        otherTable.classList.remove('chosen');
-      }
 
       if (
-        !thisBooking.chosenTables[clickedTableId] &&
+        !thisBooking.chosenTables.clickedTableId &&
         !clickedTable.classList.contains(classNames.booking.tableChosen)
       ) {
         clickedTable.classList.add(classNames.booking.tableChosen);
 
         thisBooking.chosenTables = clickedTableId;
       } else {
-        //const clickedTableId = clickedTable.getAttribute('data-table');
-
         clickedTable.classList.remove(classNames.booking.tableChosen);
+        thisBooking.chosenTables = 0;
+      }
+
+      const otherTables = clickedTable.offsetParent.querySelectorAll('.table');
+      //   log('other tables', otherTables);
+
+      for (const table of otherTables) {
+        //    log(table);
+        if (table != clickedTable) {
+          table.classList.remove(classNames.booking.tableChosen);
+        }
       }
     } else {
       window.alert('This table is taken, please choose another one');
     }
 
-    //log('chosen tables', thisBooking.chosenTables);
+    log('chosen tables', thisBooking.chosenTables);
   }
 }
 
