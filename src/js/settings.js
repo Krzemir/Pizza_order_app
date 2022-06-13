@@ -38,12 +38,18 @@ export const select = {
       input: 'input[type="range"]',
       output: '.output',
     },
+    floorPlan: '.floor-plan',
   },
   booking: {
     peopleAmount: '.people-amount',
     hoursAmount: '.hours-amount',
     tables: '.floor-plan .table',
+    phone: '[name="phone"]',
+    address: '[name="address"]',
+    bookingOptions: '.bookig-options',
+    starters: '.starters',
   },
+
   nav: {
     links: '.main-nav a',
   },
