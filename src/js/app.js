@@ -2,6 +2,7 @@ import { settings, select, classNames } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
+import Home from './components/Home.js';
 
 const app = {
   initPages: function () {
@@ -9,6 +10,8 @@ const app = {
 
     thisApp.pages = document.querySelector(select.containerOf.pages).children;
     thisApp.navLinks = document.querySelectorAll(select.nav.links);
+
+    console.log(thisApp.boxLinks);
 
     const idFromHash = window.location.hash.replace('#/', '');
 
@@ -46,10 +49,7 @@ const app = {
       page.classList.toggle(classNames.pages.active, page.id == pageId);
     }
     for (let link of thisApp.navLinks) {
-      link.classList.toggle(
-        classNames.nav.active,
-        link.getAttribute('href') == '#' + pageId
-      );
+      link.classList.toggle(classNames.nav.active, link.getAttribute('href') == '#' + pageId);
     }
   },
 
@@ -57,10 +57,7 @@ const app = {
     const thisApp = this;
 
     for (let productData in thisApp.data.products) {
-      new Product(
-        thisApp.data.products[productData].id,
-        thisApp.data.products[productData]
-      );
+      new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
     }
   },
 
@@ -106,12 +103,20 @@ const app = {
     thisApp.booking = new Booking(thisApp.bookingWidget);
   },
 
+  initHome: function () {
+    const thisApp = this;
+
+    thisApp.homeWidget = document.querySelector(select.containerOf.home);
+    thisApp.home = new Home(thisApp.homeWidget);
+  },
+
   init: function () {
     const thisApp = this;
     thisApp.initPages();
     thisApp.initData();
     thisApp.initCart();
     thisApp.initBooking();
+    thisApp.initHome();
   },
 };
 

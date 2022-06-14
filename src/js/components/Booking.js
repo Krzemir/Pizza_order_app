@@ -160,7 +160,6 @@ class Booking {
     thisWidget.dom.floor = thisWidget.dom.wrapper.querySelector('.floor-plan');
 
     thisWidget.dom.timePicker = thisWidget.dom.wrapper.querySelector('.time-picker');
-    log(thisWidget.dom.timePicker);
 
     thisWidget.dom.tables = thisWidget.dom.wrapper.querySelectorAll(select.booking.tables);
     thisWidget.dom.address = element.querySelector(select.booking.address);
@@ -204,17 +203,11 @@ class Booking {
 
       if (starter.type == 'checkbox') {
         if (starter.checked) {
-          //   log('starter value', starter);
           thisWidget.starters.push(starter.value);
-          //   log('to remove:', thisWidget.starters.indexOf(starter.value));
         } else {
-          //    log('to remove:', thisWidget.starters.indexOf(starter.value));
-
           thisWidget.starters.splice(thisWidget.starters.indexOf(starter.value), 1);
         }
       }
-
-      //  log('starters', thisWidget.starters);
     });
 
     thisWidget.dom.wrapper.addEventListener('submit', function (event) {
